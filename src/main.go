@@ -30,13 +30,10 @@ func getData(w http.ResponseWriter, r *http.Request) {
 
 	//onHTML function allows the collector to use a callback function when the specific HTML tag is reached
 	//in this case whenever our collector finds an
-	//anchor tag with href it will call the anonymous function
-	// specified below which will get the info from the href and append it to our slice
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-		link := e.Request.AbsoluteURL(e.Attr("href"))
-		if link != "" {
-			response = append(response, link)
-		}
+	//li tag it will call the anonymous function
+	// specified below which will get the content from the tag and append it to our slice
+	c.OnHTML("li", func(e *colly.HTMLElement) {
+		response = append(response, e.Text)
 	})
 
 	//Command to visit the website
